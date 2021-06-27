@@ -73,18 +73,18 @@ WSGI_APPLICATION = 'film_portal.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
+'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DEFAULT_DB_NAME'),
+        'HOST': config('DEFAULT_DB_HOST'),
+        'PORT': config('DEFAULT_DB_PORT'),
+        'USER': config('DEFAULT_DB_USER'),
+        'PASSWORD': config('DEFAULT_DB_PASSWORD'),
     }
-# 'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': config('DEFAULT_DB_NAME'),
-#         'HOST': config('DEFAULT_DB_HOST'),
-#         'PORT': config('DEFAULT_DB_PORT'),
-#         'USER': config('DEFAULT_DB_USER'),
-#         'PASSWORD': config('DEFAULT_DB_PASSWORD'),
-#     }
 }
 
 # Password validation
