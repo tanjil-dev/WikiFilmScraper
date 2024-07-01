@@ -27,7 +27,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'film_portal.urls'
+ROOT_URLCONF = 'WikiFilmScraper.urls'
 
 TEMPLATES = [
     {
@@ -46,7 +46,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'film_portal.wsgi.application'
+WSGI_APPLICATION = 'WikiFilmScraper.wsgi.application'
 
 DATABASES = {
     'default': {
