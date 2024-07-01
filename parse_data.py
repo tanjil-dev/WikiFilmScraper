@@ -10,7 +10,7 @@ def fn():
     results = soup.find("table", {"class": "wikitable sortable"})
 
     # print(results.prettify())
-    # movies = []
+    film_data = []
     count = 0
     for tr in results.find_all('tr'):
         for td in tr.find_all('td'):
@@ -34,14 +34,16 @@ def fn():
                         # movies.append(movie)
                         count+=1
                         print(count," ",movie)
-                        film_data = films(movie_name=a.text,movie_link=link, details=jk)
-                        film_data.save()
+                        data = films(movie_name=str(a.text), movie_link=str(link), details=str(jk))
+                        film_data.append(data)
                     except:
                         pass
+
                     endtime = time.time()
                     finish = endtime-starttime
                     print(finish)
                 cnt = cnt + 1
+    films.objects.bulk_create(film_data)
     end_time = time.time()
     finish_time = (end_time-start_time)
     print(finish_time)
