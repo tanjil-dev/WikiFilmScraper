@@ -2,6 +2,8 @@
 - Data WebScrapping from Wikipedia
 - Data Extraction and store into Database(PostgreSQL)
 - RestAPI endpoint
+- Future implementation:
+  - UI design and frontend implementation using React.js 
 
 ## Project Setup
 ### Clone the repository & enter inside the project directory
@@ -41,6 +43,7 @@ python manage.py runserver
 
 ## Postgres Database Setup
 - Please setup Postgresql RDMS in the local environment. [Tutorial Page](https://join.skype.com/invite/gfDuSdCKc8s9)
+- We will avoid putting the database credentials into the settings.py file. Because it will expose your database credential when we will upload code or host our project in public.
 ## Create .env file using CMD
 - From project root directory go we will enter the TodoApp directory.
 ```
