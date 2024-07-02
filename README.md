@@ -1,9 +1,14 @@
-# WikiFilmScraper 
-- Data WebScrapping from Wikipedia
-- Data Extraction and store into Database(PostgreSQL)
-- RestAPI endpoint
+# WikiFilmScraper
+
+WikiFilmScraper is a web scraping tool designed to extract film names, links, and details from a Wikipedia page containing a table of films.
+
+## Features
+
+- Extracts film names from Wikipedia tables
+- Captures links to individual film pages
+- Gathers detailed information about each film
 - Future implementation:
-  - UI design and frontend implementation using React.js 
+  - UI design and frontend implementation using React.js
 
 ## Project Setup
 ### Clone the repository & enter inside the project directory
