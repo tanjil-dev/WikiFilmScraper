@@ -1,4 +1,9 @@
 from django.shortcuts import render
+from film.models import *
 
 def Home(request):
-    return render(request, template_name="home.html")
+    data = films.objects.all()
+    context = {
+        'data': data
+    }
+    return render(request, template_name="home.html", context=context)
