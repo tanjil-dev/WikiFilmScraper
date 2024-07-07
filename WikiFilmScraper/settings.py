@@ -1,10 +1,9 @@
 import os
 from pathlib import Path
-from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = config('SECRET_KEY')
-DEBUG = config('DEBUG', cast=bool, default=True)
+SECRET_KEY = "iz%2$w@2hasl+pg9xek4x8d&b3v%q1=!j!cuxkcb#)4qzc4(=7"
+DEBUG = False
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
@@ -52,12 +51,6 @@ WSGI_APPLICATION = 'WikiFilmScraper.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': config('DEFAULT_DB_NAME'),
-        # 'HOST': config('DEFAULT_DB_HOST'),
-        # 'PORT': config('DEFAULT_DB_PORT'),
-        # 'USER': config('DEFAULT_DB_USER'),
-        # 'PASSWORD': config('DEFAULT_DB_PASSWORD'),
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
