@@ -52,14 +52,8 @@ WSGI_APPLICATION = 'WikiFilmScraper.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': config('DEFAULT_DB_NAME'),
-        # 'HOST': config('DEFAULT_DB_HOST'),
-        # 'PORT': config('DEFAULT_DB_PORT'),
-        # 'USER': config('DEFAULT_DB_USER'),
-        # 'PASSWORD': config('DEFAULT_DB_PASSWORD'),
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': BASE_DIR / "db.sqlite3",
     }
 }
 
