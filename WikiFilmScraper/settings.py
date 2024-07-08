@@ -1,4 +1,5 @@
 import os
+import dj_database_url
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -49,12 +50,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'WikiFilmScraper.wsgi.application'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.parse("postgresql://wikifilm_user:2mmNmo93gJzd0nrshcrtvBAwJZTxi3ow@dpg-cq5mdetds78s73d3r6u0-a.oregon-postgres.render.com/wikifilm")
 }
+
 
 
 AUTH_PASSWORD_VALIDATORS = [
