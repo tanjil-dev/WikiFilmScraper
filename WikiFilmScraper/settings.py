@@ -4,7 +4,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "iz%2$w@2hasl+pg9xek4x8d&b3v%q1=!j!cuxkcb#)4qzc4(=7"
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['wikifilmscraper.onrender.com', '0.0.0.0']
 
 INSTALLED_APPS = [
