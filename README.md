@@ -12,6 +12,8 @@ WikiFilmScraper is a web scraping tool designed to extract film names, links, an
 ### Clone the repository & enter inside the project directory
 ```
 git clone https://github.com/tanjil-dev/WikiFilmScraper.git
+```
+```
 cd WikiFilmScraper
 ```
 ### create virtual environment

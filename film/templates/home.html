@@ -54,9 +54,13 @@
     <br>
     <div class="text-center">
         <h1>Welcome to WikiFilm!</h1>
+        <span><strong>Reference url: <a href="https://en.wikipedia.org/wiki/List_of_Academy_Award-winning_films">List of Academy Award-winning films</a></strong></span>
+        <br>
         {% if data %}
+        <br>
         <button type="button" class="btn btn-outline-secondary" onclick="deleteData()">Delete Data</button>
         {% else %}
+        <br>
         <button type="button" class="btn btn-outline-secondary" onclick="fetchData()">Fetch Data</button>
         {% endif %}
     </div>
