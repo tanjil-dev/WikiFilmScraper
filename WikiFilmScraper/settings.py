@@ -50,10 +50,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'WikiFilmScraper.wsgi.application'
 
-DATABASES = {
-    'default': dj_database_url.parse("postgresql://wikifilm_user:2mmNmo93gJzd0nrshcrtvBAwJZTxi3ow@dpg-cq5mdetds78s73d3r6u0-a.oregon-postgres.render.com/wikifilm")
-}
+# DATABASES = {
+#     'default': dj_database_url.parse("postgresql://wikifilm_user:2mmNmo93gJzd0nrshcrtvBAwJZTxi3ow@dpg-cq5mdetds78s73d3r6u0-a.oregon-postgres.render.com/wikifilm")
+# }
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DEFAULT_DB_NAME'),
+        'HOST': config('DEFAULT_DB_HOST'),
+        'USER': config('DEFAULT_DB_USER'),
+        'PASSWORD': config('DEFAULT_DB_PASSWORD'),
+        'PORT': config('DEFAULT_DB_PORT')
+    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
