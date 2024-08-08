@@ -10,5 +10,3 @@ class films(models.Model):
     class Meta:
         db_table = "films"
 
-    def __str__(self):
-        return self.movie_name

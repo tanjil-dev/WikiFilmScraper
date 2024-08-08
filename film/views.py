@@ -1,9 +1,4 @@
-from django.shortcuts import render
-from film.models import *
+from django.views.generic import TemplateView
 
-def Home(request):
-    data = films.objects.all()
-    context = {
-        'data': data
-    }
-    return render(request, template_name="home.html", context=context)
+class Home(TemplateView):
+    template_name = 'home.html'
