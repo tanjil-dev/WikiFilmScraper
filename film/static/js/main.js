@@ -63,25 +63,35 @@ var base_url = "http://0.0.0.0:8080";
 
 // Initialize DataTable
 var table = $('#myTable').DataTable({
-scrollX: true, // Enable horizontal scrolling
-    deferRender: true,
-    pageLength: 10,
-    ajax: {
-        url: `${base_url}/api/v1/film-api/list_create/`,
-        dataSrc: 'data' // This tells DataTables to look for data inside the 'data' key of the JSON response
-    },
-    columns: [
-        { data: 'movie_name' },
-        { data: 'movie_link' },
-        { data: 'details' },
-        {
-            data: null,
-            className: "center",
-            defaultContent: '<button class="edit-btn btn btn-primary">Edit</button> <button class="delete-btn btn btn-danger">Delete</button>'
+        scrollX: true,
+        pageLength: 10,
+        ajax: `${base_url}/api/v1/film-api/list_create/`,
+        columns: [
+            { data: 'movie_name', orderable: false }, // Disable sorting for this column
+            { data: 'movie_link', orderable: false }, // Disable sorting for this column
+            { data: 'details', orderable: false }, // Disable sorting for this column
+            {
+                data: null,
+                className: "center",
+                defaultContent: '<button class="edit-btn btn btn-primary">Edit</button> <button class="delete-btn btn btn-danger">Delete</button>',
+                orderable: false // Disable sorting for the Actions column
+            }
+        ],
+        initComplete: function() {
+            // Adding the search input for each column
+            this.api().columns([0, 1, 2]).every(function() {
+                var column = this;
+                var input = document.createElement("input");
+                input.placeholder = 'Search ' + $(column.header()).text();
+                $(input).appendTo($(column.header()).empty())
+                    .on('keyup change', function() {
+                        if (column.search() !== this.value) {
+                            column.search(this.value).draw();
+                        }
+                    });
+            });
         }
-    ]
-});
-
+    });
 
 // Handle Edit Button Click
 $('#myTable tbody').on('click', 'button.edit-btn', function () {
@@ -127,3 +137,12 @@ $('#myTable tbody').on('click', 'button.delete-btn', function () {
         });
     }
 });
+
+
+// Apply the search
+    $('#myTable thead input').on('keyup change', function() {
+        // Get the index of the column
+        var columnIndex = $(this).parent().index();
+        // Filter the column based on the input value
+        table.column(columnIndex).search(this.value).draw();
+    });
