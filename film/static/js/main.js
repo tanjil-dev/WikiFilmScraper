@@ -61,28 +61,30 @@ function getCookie(name) {
 var csrftoken = getCookie('csrftoken');
 var base_url = "http://0.0.0.0:8080";
 
-// Initialize DataTable
 var table = $('#myTable').DataTable({
         scrollX: true,
         pageLength: 10,
         ajax: `${base_url}/api/v1/film-api/list_create/`,
         columns: [
-            { data: 'movie_name', orderable: false }, // Disable sorting for this column
-            { data: 'movie_link', orderable: false }, // Disable sorting for this column
-            { data: 'details', orderable: false }, // Disable sorting for this column
+            { data: 'movie_name', orderable: false },
+            { data: 'movie_link', orderable: false },
+            { data: 'details', orderable: false },
             {
                 data: null,
                 className: "center",
-                defaultContent: '<button class="edit-btn btn btn-primary">Edit</button> <button class="delete-btn btn btn-danger">Delete</button>',
-                orderable: false // Disable sorting for the Actions column
+                defaultContent: '<div class="btn-group">' +
+                    '<button class="btn btn-secondary">Update</button>' +
+                    '<button class="btn btn-dark">Delete</button>' +
+                    '</div>',
+                orderable: false,
             }
         ],
         initComplete: function() {
-            // Adding the search input for each column
             this.api().columns([0, 1, 2]).every(function() {
                 var column = this;
                 var input = document.createElement("input");
-                input.placeholder = 'Search ' + $(column.header()).text();
+                input.placeholder = 'Search ';
+//                console.log($(column.title()).text());
                 $(input).appendTo($(column.header()).empty())
                     .on('keyup change', function() {
                         if (column.search() !== this.value) {
@@ -93,43 +95,79 @@ var table = $('#myTable').DataTable({
         }
     });
 
-// Handle Edit Button Click
+var selectedRowData;
+var deleteRowData;
+
 $('#myTable tbody').on('click', 'button.edit-btn', function () {
-    var data = table.row($(this).parents('tr')).data();
-    console.log(data);
-    var new_movie_name = prompt("Edit Movie Name:", data.movie_name);
-    var new_movie_link = prompt("Edit Movie Link:", data.movie_link);
-    var new_details = prompt("Edit Details:", data.details);
-    if (new_movie_name !== null && new_movie_link !== null && new_details !== null) {
+    // Get the selected row data
+    selectedRowData = table.row($(this).parents('tr')).data();
+
+    // Populate the modal fields with the selected row data
+    $('#movieName').val(selectedRowData.movie_name);
+    $('#movieLink').val(selectedRowData.movie_link);
+    $('#details').val(selectedRowData.details);
+
+    // Show the modal
+    $('#editModal').modal('show');
+});
+
+$('#saveChangesBtn').on('click', function () {
+    // Get the new values from the modal inputs
+    var newMovieName = $('#movieName').val();
+    var newMovieLink = $('#movieLink').val();
+    var newDetails = $('#details').val();
+
+    if (newMovieName && newMovieLink && newDetails) {
+        // Make the AJAX call to update the data
         $.ajax({
-            url: `${base_url}/api/v1/film-api/retrieve_update_delete/${data.id}/`,
+            url: `${base_url}/api/v1/film-api/retrieve_update_delete/${selectedRowData.id}/`,
             type: 'PUT',
             headers: { 'X-CSRFToken': csrftoken },
             contentType: 'application/json',
-            data: JSON.stringify({ movie_name: new_movie_name, movie_link: new_movie_link ,details: new_details }),
+            data: JSON.stringify({
+                movie_name: newMovieName,
+                movie_link: newMovieLink,
+                details: newDetails
+            }),
             success: function () {
+                // Reload the table data after successful update
                 table.ajax.reload();
+
+                // Hide the modal
+                $('#editModal').modal('hide');
             },
             error: function (error) {
                 console.error('Error updating data:', error);
             }
         });
-    }
-    else{
-        prompt("Please insert a value to edit!");
+    } else {
+        alert("Please fill out all fields before saving.");
     }
 });
 
-// Handle Delete Button Click
+
 $('#myTable tbody').on('click', 'button.delete-btn', function () {
-    var data = table.row($(this).parents('tr')).data();
-    if (confirm("Are you sure you want to delete this record?")) {
+    // Get the data for the row to be deleted
+    deleteRowData = table.row($(this).parents('tr')).data();
+
+    // Show the confirmation modal
+    $('#deleteModal').modal('show');
+});
+
+// Handle confirm delete button click
+$('#confirmDeleteBtn').on('click', function () {
+    if (deleteRowData) {
+        // Make the AJAX call to delete the data
         $.ajax({
-            url: `${base_url}/api/v1/film-api/retrieve_update_delete/${data.id}/`,
+            url: `${base_url}/api/v1/film-api/retrieve_update_delete/${deleteRowData.id}/`,
             type: 'DELETE',
             headers: { 'X-CSRFToken': csrftoken },
             success: function () {
+                // Reload the table data after successful deletion
                 table.ajax.reload();
+
+                // Hide the confirmation modal
+                $('#deleteModal').modal('hide');
             },
             error: function (error) {
                 console.error('Error deleting data:', error);
@@ -137,12 +175,3 @@ $('#myTable tbody').on('click', 'button.delete-btn', function () {
         });
     }
 });
-
-
-// Apply the search
-    $('#myTable thead input').on('keyup change', function() {
-        // Get the index of the column
-        var columnIndex = $(this).parent().index();
-        // Filter the column based on the input value
-        table.column(columnIndex).search(this.value).draw();
-    });
