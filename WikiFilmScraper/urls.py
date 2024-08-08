@@ -6,5 +6,5 @@ from film.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('film.urls')),
-    path('', Home, name='home'),
+    path('', Home.as_view(), name='home'),
 ]
