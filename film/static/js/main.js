@@ -68,15 +68,15 @@ var table = $('#myTable').DataTable({
             extend: 'copyHtml5',
             text: 'Copy to Clipboard',
             exportOptions: {
-                columns: ':visible'
+                columns: [0, 1, 2]
             }
         },
         {
             extend: 'excelHtml5',
             text: 'Export to Excel',
             exportOptions: {
-                columns: ':visible'
-            }
+                columns: [0, 1, 2]
+        }
         },
         {
             extend: 'pdfHtml5',
@@ -84,14 +84,14 @@ var table = $('#myTable').DataTable({
             orientation: 'landscape',
             pageSize: 'A4',
             exportOptions: {
-                columns: ':visible'
+                columns: [0, 1, 2]
             }
         },
         {
             extend: 'print',
             text: 'Print Table',
             exportOptions: {
-                columns: ':visible'
+                columns: [0, 1, 2]
             }
         }
     ],
@@ -103,11 +103,10 @@ var table = $('#myTable').DataTable({
         columns: [
             { data: 'movie_name', orderable: false },
             {
-            data: 'movie_link',
-
+            data: 'movie_link', orderable: false,
             render: function(data, type, row) {
                 return `<p id="fix1">${data}</p> <a class="btn btn-sm btn-secondary" href="${data}" target="_blank">Go To Link</a>`;
-            }
+            },
             },
             { data: 'details', orderable: false },
             {
