@@ -1,3 +1,4 @@
+$(document).ready(function() {
         const overlay = document.getElementById('overlay');
         const dataContainer = document.getElementById('data-container');
 
@@ -16,12 +17,12 @@
                 .then(response => response.json())
                 .then(data => {
                     hideOverlay();
-                    window.location.reload();
-
+//                    window.location.reload();
+                    table.ajax.reload();
                 })
                 .catch(error => {
                     hideOverlay();
-                    dataContainer.innerHTML = 'An error occurred while fetching data.';
+                    dataContainer.innerHTML = 'An error occurred while fetching all data.';
                 });
         }
 
@@ -33,12 +34,11 @@
                 .then(response => response.json())
                 .then(data => {
                     hideOverlay();
-                    window.location.reload();
-
+                    table.ajax.reload();
                 })
                 .catch(error => {
                     hideOverlay();
-                    dataContainer.innerHTML = 'An error occurred while fetching data.';
+                    dataContainer.innerHTML = 'An error occurred while deleting all data.';
                 });
         }
 
@@ -73,8 +73,8 @@ var table = $('#myTable').DataTable({
                 data: null,
                 className: "center",
                 defaultContent: '<div class="btn-group">' +
-                    '<button class="btn btn-secondary">Update</button>' +
-                    '<button class="btn btn-dark">Delete</button>' +
+                    '<button class="btn btn-sm btn-secondary edit-btn">Update</button>' +
+                    '<button class="btn btn-sm btn-dark delete-btn">Delete</button>' +
                     '</div>',
                 orderable: false,
             }
@@ -93,6 +93,22 @@ var table = $('#myTable').DataTable({
                     });
             });
         }
+    });
+
+function updateButtons() {
+        if (table.data().any()) {  // Check if there's any data in the DataTable
+            $('#buttonContainer').html('<button type="button" class="btn btn-dark" onclick="deleteData()">Delete Data</button>');
+        } else {
+            $('#buttonContainer').html('<button type="button" class="btn btn-secondary" onclick="fetchData()">Fetch Data</button>');
+        }
+    }
+
+    // Call the function after the table is initialized
+    updateButtons();
+
+    // Optionally, call this function after data is loaded via Ajax or other methods
+    table.on('draw', function() {
+        updateButtons();
     });
 
 var selectedRowData;
@@ -174,4 +190,5 @@ $('#confirmDeleteBtn').on('click', function () {
             }
         });
     }
+});
 });
