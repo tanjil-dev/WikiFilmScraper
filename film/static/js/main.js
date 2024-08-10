@@ -62,6 +62,13 @@ var csrftoken = getCookie('csrftoken');
 var base_url = "http://0.0.0.0:8080";
 
 var table = $('#myTable').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+              'excel',
+              'pdf',
+              'print',
+              'copy'
+        ],
         scrollX: true,
         pageLength: 10,
         ajax: `${base_url}/api/v1/film-api/list_create/`,
@@ -96,17 +103,15 @@ var table = $('#myTable').DataTable({
     });
 
 function updateButtons() {
-        if (table.data().any()) {  // Check if there's any data in the DataTable
+        if (table.data().any()) {
             $('#buttonContainer').html('<button type="button" class="btn btn-dark" onclick="deleteData()">Delete Data</button>');
         } else {
             $('#buttonContainer').html('<button type="button" class="btn btn-secondary" onclick="fetchData()">Fetch Data</button>');
         }
     }
 
-    // Call the function after the table is initialized
     updateButtons();
 
-    // Optionally, call this function after data is loaded via Ajax or other methods
     table.on('draw', function() {
         updateButtons();
     });
@@ -115,20 +120,16 @@ var selectedRowData;
 var deleteRowData;
 
 $('#myTable tbody').on('click', 'button.edit-btn', function () {
-    // Get the selected row data
     selectedRowData = table.row($(this).parents('tr')).data();
 
-    // Populate the modal fields with the selected row data
     $('#movieName').val(selectedRowData.movie_name);
     $('#movieLink').val(selectedRowData.movie_link);
     $('#details').val(selectedRowData.details);
 
-    // Show the modal
     $('#editModal').modal('show');
 });
 
 $('#saveChangesBtn').on('click', function () {
-    // Get the new values from the modal inputs
     var newMovieName = $('#movieName').val();
     var newMovieLink = $('#movieLink').val();
     var newDetails = $('#details').val();
