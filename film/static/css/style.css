@@ -35,3 +35,13 @@
 th.no-sort::after {
     content: none !important;
 }
+.container-flex {
+    width: 98%;
+    margin: 0 auto;
+}
+/* Apply text wrapping and set a minimum width for the "Movie Link" column */
+p#fix1 {
+    white-space: normal;
+    word-wrap: break-word;
+    max-width: 400px;
+}
