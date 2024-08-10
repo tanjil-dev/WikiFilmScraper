@@ -64,17 +64,51 @@ var base_url = "http://0.0.0.0:8080";
 var table = $('#myTable').DataTable({
         dom: 'Bfrtip',
         buttons: [
-              'excel',
-              'pdf',
-              'print',
-              'copy'
-        ],
+        {
+            extend: 'copyHtml5',
+            text: 'Copy to Clipboard',
+            exportOptions: {
+                columns: ':visible'
+            }
+        },
+        {
+            extend: 'excelHtml5',
+            text: 'Export to Excel',
+            exportOptions: {
+                columns: ':visible'
+            }
+        },
+        {
+            extend: 'pdfHtml5',
+            text: 'Export to PDF',
+            orientation: 'landscape',
+            pageSize: 'A4',
+            exportOptions: {
+                columns: ':visible'
+            }
+        },
+        {
+            extend: 'print',
+            text: 'Print Table',
+            exportOptions: {
+                columns: ':visible'
+            }
+        }
+    ],
+
+        autoWidth: false,
         scrollX: true,
         pageLength: 10,
         ajax: `${base_url}/api/v1/film-api/list_create/`,
         columns: [
             { data: 'movie_name', orderable: false },
-            { data: 'movie_link', orderable: false },
+            {
+            data: 'movie_link',
+
+            render: function(data, type, row) {
+                return `<p id="fix1">${data}</p> <a class="btn btn-sm btn-secondary" href="${data}" target="_blank">Go To Link</a>`;
+            }
+            },
             { data: 'details', orderable: false },
             {
                 data: null,
