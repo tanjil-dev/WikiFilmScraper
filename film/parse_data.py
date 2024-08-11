@@ -2,6 +2,8 @@ import time
 from bs4 import BeautifulSoup
 import requests
 from film.models import films
+
+#Code-Version(1)
 def fn():
     start_time = time.time()
     page = requests.get(
@@ -32,8 +34,8 @@ def fn():
                              'details': jk
                              }
                         # movies.append(movie)
-                        count+=1
-                        print(count," ",movie)
+                        count += 1
+                        print(count, " ", movie)
                         data = films(movie_name=str(a.text), movie_link=str(link), details=str(jk))
                         film_data.append(data)
                     except:
