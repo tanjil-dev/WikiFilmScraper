@@ -1,48 +1,47 @@
+var base_url = "http://0.0.0.0:8080";
+var table;
+function deleteData() {
+                if (confirm("Are you sure you want to delete all data? This action cannot be undone.")) {
+                    var url = `${base_url}/api/v1/film-api/delete/`;
+                    showOverlay();
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            hideOverlay();
+                            table.ajax.reload();
+                        })
+                        .catch(error => {
+                            hideOverlay();
+                            console.error('An error occurred while deleting all data:', error);
+                        });
+                }
+            }
+function fetchData() {
+            if (confirm("Are you sure you want to fetch all data? This action cannot be undone.")) {
+                showOverlay();
+                var url = `${base_url}/api/v1/film-api/`;
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        hideOverlay();
+                        table.ajax.reload();
+                    })
+                    .catch(error => {
+                        hideOverlay();
+                        dataContainer.innerHTML = 'An error occurred while fetching all data.';
+                    });
+            }
+        }
+const overlay = document.getElementById('overlay');
+    const dataContainer = document.getElementById('data-container');
+    function showOverlay() {
+    overlay.style.display = 'flex';
+}
+function hideOverlay() {
+    overlay.style.display = 'none';
+}
+
 $(document).ready(function() {
-        const overlay = document.getElementById('overlay');
-        const dataContainer = document.getElementById('data-container');
-
-        function showOverlay() {
-            overlay.style.display = 'flex';
-        }
-
-        function hideOverlay() {
-            overlay.style.display = 'none';
-        }
-
-        function fetchData() {
-            showOverlay();
-            url = `${base_url}/api/v1/film-api/`;
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    hideOverlay();
-//                    window.location.reload();
-                    table.ajax.reload();
-                })
-                .catch(error => {
-                    hideOverlay();
-                    dataContainer.innerHTML = 'An error occurred while fetching all data.';
-                });
-        }
-
-        function deleteData() {
-            url = `${base_url}/api/v1/film-api/delete/`;
-            showOverlay();
-            console.log(url);
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    hideOverlay();
-                    table.ajax.reload();
-                })
-                .catch(error => {
-                    hideOverlay();
-                    dataContainer.innerHTML = 'An error occurred while deleting all data.';
-                });
-        }
-
-
 // CSRF token setup
 function getCookie(name) {
     var cookieValue = null;
@@ -58,10 +57,10 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-var csrftoken = getCookie('csrftoken');
-var base_url = "http://0.0.0.0:8080";
 
-var table = $('#myTable').DataTable({
+var csrftoken = getCookie('csrftoken');
+
+table = $('#myTable').DataTable({
         dom: 'Bfrtip',
         buttons: [
         {
@@ -119,39 +118,11 @@ var table = $('#myTable').DataTable({
                 orderable: false,
             }
         ],
-        initComplete: function() {
-            this.api().columns([0, 1, 2]).every(function() {
-                var column = this;
-                var input = document.createElement("input");
-                input.placeholder = 'Search ';
-//                console.log($(column.title()).text());
-                $(input).appendTo($(column.header()).empty())
-                    .on('keyup change', function() {
-                        if (column.search() !== this.value) {
-                            column.search(this.value).draw();
-                        }
-                    });
-            });
-        }
-    });
-
-function updateButtons() {
-        if (table.data().any()) {
-            $('#buttonContainer').html('<button type="button" class="btn btn-dark" onclick="deleteData()">Delete Data</button>');
-        } else {
-            $('#buttonContainer').html('<button type="button" class="btn btn-secondary" onclick="fetchData()">Fetch Data</button>');
-        }
-    }
-
-    updateButtons();
-
-    table.on('draw', function() {
-        updateButtons();
     });
 
 var selectedRowData;
 var deleteRowData;
-
+updateButtons();
 $('#myTable tbody').on('click', 'button.edit-btn', function () {
     selectedRowData = table.row($(this).parents('tr')).data();
 
@@ -168,7 +139,6 @@ $('#saveChangesBtn').on('click', function () {
     var newDetails = $('#details').val();
 
     if (newMovieName && newMovieLink && newDetails) {
-        // Make the AJAX call to update the data
         $.ajax({
             url: `${base_url}/api/v1/film-api/retrieve_update_delete/${selectedRowData.id}/`,
             type: 'PUT',
@@ -180,10 +150,7 @@ $('#saveChangesBtn').on('click', function () {
                 details: newDetails
             }),
             success: function () {
-                // Reload the table data after successful update
                 table.ajax.reload();
-
-                // Hide the modal
                 $('#editModal').modal('hide');
             },
             error: function (error) {
@@ -197,26 +164,18 @@ $('#saveChangesBtn').on('click', function () {
 
 
 $('#myTable tbody').on('click', 'button.delete-btn', function () {
-    // Get the data for the row to be deleted
     deleteRowData = table.row($(this).parents('tr')).data();
-
-    // Show the confirmation modal
     $('#deleteModal').modal('show');
 });
 
-// Handle confirm delete button click
 $('#confirmDeleteBtn').on('click', function () {
     if (deleteRowData) {
-        // Make the AJAX call to delete the data
         $.ajax({
             url: `${base_url}/api/v1/film-api/retrieve_update_delete/${deleteRowData.id}/`,
             type: 'DELETE',
             headers: { 'X-CSRFToken': csrftoken },
             success: function () {
-                // Reload the table data after successful deletion
                 table.ajax.reload();
-
-                // Hide the confirmation modal
                 $('#deleteModal').modal('hide');
             },
             error: function (error) {
@@ -225,4 +184,22 @@ $('#confirmDeleteBtn').on('click', function () {
         });
     }
 });
+
+
+
+
+            function updateButtons() {
+                if (table.data().any()) {
+                    $('#buttonContainer').html('<button type="button" class="btn btn-dark" onclick="deleteData()">Delete Data</button>');
+                } else {
+                    $('#buttonContainer').html('<button type="button" class="btn btn-secondary" onclick="fetchData()">Fetch Data</button>');
+                }
+            }
+
+            updateButtons();
+
+            table.on('draw', function() {
+                updateButtons();
+            });
+
 });
