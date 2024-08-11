@@ -5,7 +5,6 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
-#Code-Version(2)
 def clean_details(details_list):
     cleaned_details = []
     for detail in details_list:
@@ -16,8 +15,7 @@ def clean_details(details_list):
             cleaned_details.append(detail)
     return ', '.join(cleaned_details)  # Join all cleaned details into a single string
 
-
-def fetch_movie_details(a):
+def fetch_movie_details(a, row_text):
     try:
         jk = []
         link = "https://en.wikipedia.org" + a['href']
@@ -25,15 +23,19 @@ def fetch_movie_details(a):
         soup1 = BeautifulSoup(details.content, 'html.parser')
         res = soup1.find("table", {"class": "infobox"})
         for x in res.find_all('tr'):
-            for d in x.find_all('td'):
-                jk.append(d.text)
+            row_data = []
+            for th in x.find_all('th'):
+                row_data.append(th.get_text(separator=' ', strip=True))
+            for td in x.find_all('td'):
+                row_data.append(td.get_text(separator=' ', strip=True))
+            jk.append(' '.join(row_data))  # Combine th and td values for the row
+
         cleaned_jk = clean_details(jk)  # Clean the details list
-        movie = {'movie_name': a.text, 'movie_link': link, 'details': cleaned_jk}
+        movie = {'movie_name': a.text, 'movie_link': link, 'details': f"{row_text} - {cleaned_jk}"}
         return movie
     except Exception as e:
         print(f"Error fetching details for {a.text}: {e}")
         return None
-
 
 def fetch():
     start_time = time.time()
@@ -47,11 +49,12 @@ def fetch():
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = []
         for tr in results.find_all('tr'):
+            cnt = 0
+            row_text = tr.get_text(separator=' ', strip=True)  # Get text content of the entire tr
             for td in tr.find_all('td'):
-                cnt = 0
                 for a in td.find_all('a'):
                     if cnt == 0 and not str(a.text).isdigit():
-                        futures.append(executor.submit(fetch_movie_details, a))
+                        futures.append(executor.submit(fetch_movie_details, a, row_text))
                     cnt += 1
 
         for future in as_completed(futures):
