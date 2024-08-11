@@ -4,12 +4,12 @@ from rest_framework.decorators import api_view
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from film.models import *
 from film.serializers import *
-import parse_data
+from film.fetch_data import fetch
 
 
 @api_view(['GET'])
 def filmApi(request):
-    parse_data.fn()
+    fetch()
     return Response('Data Upload Completed.', status=status.HTTP_200_OK)
 
 @api_view(['GET'])
