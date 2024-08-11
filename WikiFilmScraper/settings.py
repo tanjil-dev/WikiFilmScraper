@@ -1,10 +1,9 @@
 import dj_database_url
 from pathlib import Path
-from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = config('SECRET_KEY')
-DEBUG = config('DEBUG', cast=bool, default=True)
+SECRET_KEY = "iz%2$w@2hasl+pg9xek4x8d&b3v%q1=!j!cuxkcb#)4qzc4(=7"
+DEBUG = False
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
@@ -92,7 +91,7 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-STATIC_ROOT = config("STATIC_ROOT")
+STATIC_ROOT = "/home/tanjiljp/media"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
