@@ -1,7 +1,7 @@
 var base_url = "http://0.0.0.0:8080";
 var table;
 function deleteData() {
-                if (confirm("Are you sure you want to delete all data? This action cannot be undone.")) {
+                if (confirm("Are you sure you want to delete all data?")) {
                     var url = `${base_url}/api/v1/film-api/delete/`;
                     showOverlay();
                     fetch(url)
@@ -12,12 +12,13 @@ function deleteData() {
                         })
                         .catch(error => {
                             hideOverlay();
-                            console.error('An error occurred while deleting all data:', error);
+                            document.getElementById('alert').innerHTML = 'An error occurred while deleting data.';
+                            setTimeout(function() {document.getElementById('alert').innerHTML='';},5000);
                         });
                 }
             }
 function fetchData() {
-            if (confirm("Are you sure you want to fetch all data? This action cannot be undone.")) {
+            if (confirm("Are you sure you want to fetch all data?")) {
                 showOverlay();
                 var url = `${base_url}/api/v1/film-api/`;
                 fetch(url)
@@ -28,13 +29,13 @@ function fetchData() {
                     })
                     .catch(error => {
                         hideOverlay();
-                        dataContainer.innerHTML = 'An error occurred while fetching all data.';
+                        document.getElementById('alert').innerHTML = 'An error occurred while fetching data.';
+                        setTimeout(function() {document.getElementById('alert').innerHTML='';},5000);
                     });
             }
         }
 const overlay = document.getElementById('overlay');
-    const dataContainer = document.getElementById('data-container');
-    function showOverlay() {
+function showOverlay() {
     overlay.style.display = 'flex';
 }
 function hideOverlay() {
@@ -104,7 +105,7 @@ table = $('#myTable').DataTable({
             {
             data: 'movie_link', orderable: false,
             render: function(data, type, row) {
-                return `<p id="fix1">${data}</p> <a class="btn btn-sm btn-secondary" href="${data}" target="_blank">Go To Link</a>`;
+                return `<a class="btn btn-sm btn-secondary" href="${data}" target="_blank">${data}</a>`;
             },
             },
             { data: 'details', orderable: false },
@@ -184,8 +185,6 @@ $('#confirmDeleteBtn').on('click', function () {
         });
     }
 });
-
-
 
 
             function updateButtons() {
