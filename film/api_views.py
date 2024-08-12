@@ -5,6 +5,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from film.models import *
 from film.serializers import *
 from film.fetch_data import fetch
+from rest_framework.permissions import AllowAny, IsAdminUser
 
 
 @api_view(['GET'])
@@ -22,11 +23,25 @@ class FilmListCreate(ListCreateAPIView):
     queryset = films.objects.all()
     serializer_class = FilmSerializer
 
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [IsAdminUser()]
+        return [AllowAny()]
+
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
         return Response({"data": serializer.data})
 
+    def create(self, request, *args, **kwargs):
+        self.check_permissions(request)
+        return super().create(request, *args, **kwargs)
+
 class FilmRetriveUpdateDelete(RetrieveUpdateDestroyAPIView):
     queryset = films.objects.all()
     serializer_class = FilmSerializer
+
+    def get_permissions(self):
+        if self.request.method == 'DELETE':
+            return [IsAdminUser()]
+        return [AllowAny()]

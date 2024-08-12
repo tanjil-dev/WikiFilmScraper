@@ -12,7 +12,7 @@ function deleteData() {
             })
             .catch(error => {
                 hideOverlay();
-                document.getElementById('alert').innerHTML = 'An error occurred while deleting data.';
+                document.getElementById('alert').innerHTML = 'Delete data disabled by admin!';
                 setTimeout(function () { document.getElementById('alert').innerHTML = ''; }, 5000);
             });
     }
