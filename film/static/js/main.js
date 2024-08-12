@@ -1,4 +1,4 @@
-var base_url = "http://0.0.0.0:8080";
+var base_url = "https://tanjiljp.pythonanywhere.com";
 var table;
 function deleteData() {
     if (confirm("Are you sure you want to delete all data?")) {
