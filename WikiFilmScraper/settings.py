@@ -1,4 +1,3 @@
-import dj_database_url
 from pathlib import Path
 from decouple import config
 
@@ -50,20 +49,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'WikiFilmScraper.wsgi.application'
 
-DATABASES = {
-    'default': dj_database_url.parse("postgresql://postgres:CIgoNioYYgbTbkminbqcRJAISlIOsqVE@roundhouse.proxy.rlwy.net:21980/railway")
-}
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': config('DEFAULT_DB_NAME'),
-#         'HOST': config('DEFAULT_DB_HOST'),
-#         'USER': config('DEFAULT_DB_USER'),
-#         'PASSWORD': config('DEFAULT_DB_PASSWORD'),
-#         'PORT': config('DEFAULT_DB_PORT')
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config('DEFAULT_DB_NAME'),
+        'HOST': config('DEFAULT_DB_HOST'),
+        'USER': config('DEFAULT_DB_USER'),
+        'PASSWORD': config('DEFAULT_DB_PASSWORD'),
+        'PORT': config('DEFAULT_DB_PORT')
+    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
