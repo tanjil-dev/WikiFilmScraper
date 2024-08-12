@@ -44,7 +44,7 @@ def fetch():
     results = soup.find("table", {"class": "wikitable sortable"})
     count = 0
     film_data = []
-    max_workers = 8  # Optimal for MacBook Air M1
+    max_workers = 2  # Optimal for MacBook Air M1
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = []
