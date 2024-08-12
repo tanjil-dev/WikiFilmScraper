@@ -89,6 +89,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = "/home/tanjiljp/media"
-STATICFILES_DIRS = [BASE_DIR / "film/static"]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
