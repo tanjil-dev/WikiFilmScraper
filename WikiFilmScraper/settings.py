@@ -50,7 +50,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'WikiFilmScraper.wsgi.application'
 
-DATABASES = {'default': dj_database_url.parse("postgresql://postgres:CIgoNioYYgbTbkminbqcRJAISlIOsqVE@roundhouse.proxy.rlwy.net:21980/railway")}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': "tanjiljp$default",
+        'HOST': "tanjiljp.mysql.pythonanywhere-services.com",
+        'USER': "tanjiljp",
+        'PASSWORD': "Macbook@578",
+        'PORT': "3306"
+    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {

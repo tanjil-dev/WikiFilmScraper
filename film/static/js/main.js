@@ -2,7 +2,7 @@ var base_url = "https://tanjiljp.pythonanywhere.com";
 var table;
 function deleteData() {
     if (confirm("Are you sure you want to delete all data?")) {
-        var url = `${base_url}/api/v1/film-api/delete/`;
+        var url = `${base_url}/api/v1/film-api/remove/`;
         showOverlay();
         fetch(url)
             .then(response => response.json())
