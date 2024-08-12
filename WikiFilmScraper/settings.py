@@ -50,10 +50,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'WikiFilmScraper.wsgi.application'
 
-# DATABASES = {
-#     'default': dj_database_url.parse("postgresql://wikifilm_user:2mmNmo93gJzd0nrshcrtvBAwJZTxi3ow@dpg-cq5mdetds78s73d3r6u0-a.oregon-postgres.render.com/wikifilm")
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
