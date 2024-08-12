@@ -53,11 +53,11 @@ WSGI_APPLICATION = 'WikiFilmScraper.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': config('DEFAULT_DB_NAME'),
-        'HOST': config('DEFAULT_DB_HOST'),
-        'USER': config('DEFAULT_DB_USER'),
-        'PASSWORD': config('DEFAULT_DB_PASSWORD'),
-        'PORT': config('DEFAULT_DB_PORT')
+        'NAME': "tanjiljp$default",
+        'HOST': "tanjiljp.mysql.pythonanywhere-services.com",
+        'USER': "tanjiljp",
+        'PASSWORD': "Python@578",
+        'PORT': "3306"
     }
 }
 
