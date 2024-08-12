@@ -103,7 +103,17 @@ $(document).ready(function () {
         autoWidth: false,
         scrollX: true,
         pageLength: 10,
-        ajax: `${base_url}/api/v1/film-api/list_create/`,
+        ajax: {
+        url: `${base_url}/api/v1/film-api/list_create/`,
+        type: "GET",
+        cache: true, // Prevents the addition of ?_={timestamp}
+        success: function (response) {
+            table.clear().rows.add(response.data).draw(); // Adjust this based on your actual data structure
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error('Error loading data:', errorThrown);
+        }
+    },
         columns: [
             { data: 'movie_name', orderable: false },
             {
