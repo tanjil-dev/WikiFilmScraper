@@ -1,5 +1,6 @@
 from pathlib import Path
 from decouple import config
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "iz%2$w@2hasl+pg9xek4x8d&b3v%q1=!j!cuxkcb#)4qzc4(=7"
@@ -49,17 +50,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'WikiFilmScraper.wsgi.application'
 
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': "tanjiljp$default",
-        'HOST': "tanjiljp.mysql.pythonanywhere-services.com",
-        'USER': "tanjiljp",
-        'PASSWORD': "Python@578",
-        'PORT': "3306"
-    }
-}
+DATABASES = {'default': dj_database_url.parse("postgresql://postgres:CIgoNioYYgbTbkminbqcRJAISlIOsqVE@roundhouse.proxy.rlwy.net:21980/railway")}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
