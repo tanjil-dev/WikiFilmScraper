@@ -44,27 +44,36 @@ def fetch():
     results = soup.find("table", {"class": "wikitable sortable"})
     count = 0
     film_data = []
-    max_workers = 8  # Optimal for MacBook Air M1
+    max_workers = 2  # Optimal for MacBook Air M1
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = []
         for tr in results.find_all('tr'):
+            if count >= 20:  # Stop after processing 20 movies
+                break
             cnt = 0
             row_text = tr.get_text(separator=' ', strip=True)  # Get text content of the entire tr
             for td in tr.find_all('td'):
                 for a in td.find_all('a'):
                     if cnt == 0 and not str(a.text).isdigit():
                         futures.append(executor.submit(fetch_movie_details, a, row_text))
+                        count += 1
+                        if count >= 20:  # Stop after processing 20 movies
+                            break
                     cnt += 1
+                if count >= 20:  # Stop after processing 20 movies
+                    break
+            if count >= 20:  # Stop after processing 20 movies
+                break
 
         for future in as_completed(futures):
             movie = future.result()
             if movie:
                 film_data.append(films(movie_name=movie['movie_name'], movie_link=movie['movie_link'], details=movie['details']))
-                count += 1
                 print(count, " ", movie['movie_name'], " ", movie['movie_link'], " ", movie['details'])
 
     films.objects.bulk_create(film_data)
     end_time = time.time()
     finish_time = (end_time - start_time)
     print(f"Scraping completed in {finish_time} seconds")
+
