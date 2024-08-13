@@ -167,7 +167,9 @@ $(document).ready(function () {
                     $('#editModal').modal('hide');
                 },
                 error: function (error) {
-                    console.error('Error updating data:', error);
+                    $('#editModal').modal('hide');
+                    document.getElementById('alert').innerHTML = 'An error occurred while updating data.';
+                    setTimeout(function () { document.getElementById('alert').innerHTML = ''; }, 5000);
                 }
             });
         } else {
@@ -192,7 +194,9 @@ $(document).ready(function () {
                     $('#deleteModal').modal('hide');
                 },
                 error: function (error) {
-                    console.error('Error deleting data:', error);
+                    $('#deleteModal').modal('hide');
+                    document.getElementById('alert').innerHTML = 'An error occurred while deleting data.';
+                    setTimeout(function () { document.getElementById('alert').innerHTML = ''; }, 5000);
                 }
             });
         }
