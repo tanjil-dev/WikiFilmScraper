@@ -106,9 +106,9 @@ $(document).ready(function () {
         ajax: {
         url: `${base_url}/api/v1/film-api/list_create/`,
         type: "GET",
-        cache: true, // Prevents the addition of ?_={timestamp}
+        cache: true,
         success: function (response) {
-            table.clear().rows.add(response.data).draw(); // Adjust this based on your actual data structure
+            table.clear().rows.add(response.data).draw();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.error('Error loading data:', errorThrown);
@@ -167,7 +167,9 @@ $(document).ready(function () {
                     $('#editModal').modal('hide');
                 },
                 error: function (error) {
-                    console.error('Error updating data:', error);
+                    $('#editModal').modal('hide');
+                    document.getElementById('alert').innerHTML = 'An error occurred while Updating data.';
+                    setTimeout(function () { document.getElementById('alert').innerHTML = ''; }, 5000);
                 }
             });
         } else {
@@ -192,7 +194,9 @@ $(document).ready(function () {
                     $('#deleteModal').modal('hide');
                 },
                 error: function (error) {
-                    console.error('Error deleting data:', error);
+                    $('#deleteModal').modal('hide');
+                    document.getElementById('alert').innerHTML = 'An error occurred while Deleting data.';
+                    setTimeout(function () { document.getElementById('alert').innerHTML = ''; }, 5000);
                 }
             });
         }
